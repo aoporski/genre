@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Genre Classifier</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+        background-color: #f9f9f9;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      form {
+        margin-bottom: 30px;
+      }
+
+      input[type="file"] {
+        margin: 10px 0;
+      }
+
+      .result {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+      }
+
+      .filename {
+        font-style: italic;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎶 Rozpoznaj gatunek muzyczny</h1>
+    <p>
+      Obsługiwane gatunki: <b>classical</b>, <b>hiphop</b>, <b>jazz</b>,
+      <b>rock</b>
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".wav" required />
+      <br />
+      <input type="submit" value="Prześlij" />
+    </form>
+
+    {% if filename %}
+    <div class="result">
+      <p class="filename">Analizowany plik: {{ filename }}</p>
+
+      {% if genre %}
+      <h2>🎧 Przewidywany gatunek: <b>{{ genre }}</b></h2>
+      <p>Pewność: {{ confidence_display }}</p>
+
+      {% if confidence|float < 70 %}
+      <p style="color: red; font-weight: bold">
+        ⚠️ Uwaga: pewność klasyfikacji jest niska – wynik może być niedokładny.
+      </p>
+      {% endif %} {% endif %}
+    </div>
+    {% endif %}
+  </body>
+</html>
